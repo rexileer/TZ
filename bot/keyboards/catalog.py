@@ -1,5 +1,4 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram import types
 
 CATEGORIES_PER_PAGE = 5
 
@@ -24,9 +23,9 @@ async def get_categories_keyboard(page: int = 1):
         buttons.append(pagination_buttons)
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
-
     return keyboard
 
+# Имитация получения категорий из базы данных
 async def get_categories_from_db():
     return [
         {"id": 1, "name": "Electronics"},
@@ -51,3 +50,55 @@ async def get_categories_from_db():
         {"id": 20, "name": "Furniture"},
         {"id": 21, "name": "Sports"},
     ]
+
+# Клавиатура подкатегорий
+async def get_subcategories_keyboard(category_id: int):
+    subcategories = {
+        1: [{"id": 10, "name": "Phones"}, {"id": 11, "name": "Laptops"}],
+        2: [{"id": 20, "name": "Men"}, {"id": 21, "name": "Women"}],
+    }
+
+    buttons = [
+        [InlineKeyboardButton(text=sub["name"], callback_data=f"subcategory_{sub['id']}")]
+        for sub in subcategories.get(category_id, [])
+    ]
+
+    buttons.append([InlineKeyboardButton(text="⬅️ Back", callback_data="back_to_categories")])
+
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+# Клавиатура товаров
+async def get_products_keyboard(subcategory_id: int):
+    products = {
+        10: [
+            {"id": 100, "name": "iPhone 15", "price": 1000},
+            {"id": 101, "name": "Samsung S24", "price": 900},
+        ],
+        11: [
+            {"id": 102, "name": "MacBook Pro", "price": 2500},
+            {"id": 103, "name": "Asus ROG", "price": 2000},
+        ],
+        20: [
+            {"id": 104, "name": "Men's Jacket", "price": 100},
+            {"id": 105, "name": "Men's Shoes", "price": 150},
+        ],
+        21: [
+            {"id": 106, "name": "Women's Dress", "price": 120},
+            {"id": 107, "name": "Women's Shoes", "price": 130},
+        ],
+    }
+
+    buttons = [
+        [InlineKeyboardButton(text=f"{prod['name']} - ${prod['price']}", callback_data=f"product_{prod['id']}")]
+        for prod in products.get(subcategory_id, [])
+    ]
+
+    buttons.append([InlineKeyboardButton(text="⬅️ Back", callback_data="back_to_subcategories")])
+
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+# Клавиатура продукта
+def get_product_keyboard(product_id: int) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🛒 Add to Cart", callback_data=f"add_to_cart_{product_id}")],
+    ])

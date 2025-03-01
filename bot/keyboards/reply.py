@@ -6,7 +6,7 @@ from aiogram.types import (
 main = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="/catalog"),
+            KeyboardButton(text="Catalog"),
             KeyboardButton(text="Cart"),
         ],
         [
