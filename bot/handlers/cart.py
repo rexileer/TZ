@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 
 from handlers.cart_dictionary import cart_dict
 from handlers.catalog import get_product_details
-from keyboards.cart_kb import cart_keyboard
+from keyboards.cart_kb import get_cart_keyboard
 from keyboards.products import get_product_to_cart_keyboard
 
 router = Router()
@@ -27,7 +27,7 @@ async def show_cart(message: Message):
 
     text += f"\n💰 Итоговая сумма: ${total_price}"
 
-    keyboard = cart_keyboard
+    keyboard = get_cart_keyboard(user_id)
 
     await message.answer(text, reply_markup=keyboard)
 
@@ -72,3 +72,16 @@ async def add_to_cart(callback: CallbackQuery):
     await callback.message.answer(f"✅ Добавлено {quantity} шт. товара {product_id} в корзину.") # Заменить id на название товара
     
     await callback.answer()
+
+@router.callback_query(F.data.startswith("remove_from_cart_"))
+async def remove_from_cart(callback: CallbackQuery):
+    product_id = int(callback.data.split("_")[3])
+
+    if callback.from_user.id in cart_dict and product_id in cart_dict[callback.from_user.id]:
+        del cart_dict[callback.from_user.id][product_id]
+    
+    await callback.message.edit_text(
+        text="🛒 Ваша корзина обновлена.",
+        reply_markup=get_cart_keyboard(callback.from_user.id)
+    )
+    await callback.answer("Товар удален из корзины.")
