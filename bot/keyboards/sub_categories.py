@@ -1,15 +1,13 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from services.subcategories_service import get_subcategories_from_db
 
 
 async def get_subcategories_keyboard(category_id: int):
-    subcategories = {
-        1: [{"id": 10, "name": "Phones"}, {"id": 11, "name": "Laptops"}],
-        2: [{"id": 20, "name": "Men"}, {"id": 21, "name": "Women"}],
-    }
+    subcategories = await get_subcategories_from_db(category_id)
 
     buttons = [
-        [InlineKeyboardButton(text=sub["name"], callback_data=f"subcategory_{sub['id']}")]
-        for sub in subcategories.get(category_id, [])
+        [InlineKeyboardButton(text=subcategory.name, callback_data=f"subcategory_{subcategory.id}")]
+        for subcategory in subcategories
     ]
 
     buttons.append([InlineKeyboardButton(text="⬅️ Back", callback_data="back_to_categories")])

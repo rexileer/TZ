@@ -12,6 +12,6 @@ router = Router()
 async def start(message: Message):
     user_id = message.from_user.id
     if user_id not in cart_dict:
-        cart_dict[user_id] = {}  # Создаем пустую корзину
+        cart_dict[user_id] = {}
         
     await message.answer("Welcome to the AnyTechShop bot! Please choose an action from the menu.", reply_markup=reply.main)

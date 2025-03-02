@@ -1,13 +1,23 @@
+import os
+import sys
+
+# Добавляем корень проекта в sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  # Это добавит корень проекта
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+os.environ.update({'DJANGO_ALLOW_ASYNC_UNSAFE': "true"})
+
+import django
+django.setup()
+
+
 import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 
 from handlers import start, catalog, cart
-
 from middlewares.check_sub import CheckSubscription
 
 from dotenv import load_dotenv
-import os
 
 
 load_dotenv(encoding='utf-8')

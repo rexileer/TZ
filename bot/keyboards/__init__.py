@@ -1,1 +1,1 @@
-from . import reply, categories, sub_categories, products
+from . import products_kb, reply, categories, sub_categories
