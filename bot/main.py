@@ -2,7 +2,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 
-from handlers import start
+from handlers import start, catalog
 
 from middlewares.check_sub import CheckSubscription
 
@@ -20,6 +20,7 @@ async def main():
     
     dp.include_routers(
         start.router,
+        catalog.router
     )
     
     await bot.delete_webhook(drop_pending_updates=True)
