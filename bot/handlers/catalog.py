@@ -40,8 +40,8 @@ async def show_products(callback: CallbackQuery):
 async def get_product_details(product_id: int):
     product_details = {
         100: {"name": "iPhone 15", "price": 1000, "description": "Latest Apple iPhone", "photo": "https://hi-stores.ru/catalog/iphone/iphone-15/47488/#gallery-1"},
-        101: {"name": "Samsung S24", "price": 900, "description": "Latest Samsung flagship", "photo": "https://example.com/s24.jpg"},
-        102: {"name": "MacBook Pro", "price": 2500, "description": "Powerful laptop", "photo": "https://example.com/macbook.jpg"},
+        101: {"name": "Samsung S24", "price": 900, "description": "Latest Samsung flagship", "photo": "https://hi-stores.ru/catalog/samsung/smartfoni/galaxy-s/galaxy-s24-fe/108291/#gallery-1"},
+        102: {"name": "MacBook Pro", "price": 2500, "description": "Powerful laptop", "photo": "https://hi-stores.ru/catalog/macbook/macbook_air/macbook-air-13-m1-2020/8955/#gallery-1"},
     }
     return product_details.get(product_id, None)
 
