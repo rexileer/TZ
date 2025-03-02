@@ -1,5 +1,3 @@
-# models.py в приложении products (или другое название)
-
 from django.db import models
 
 class Category(models.Model):
@@ -43,3 +41,28 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"
+
+
+class Cart(models.Model):
+    user_id = models.BigIntegerField()
+    products = models.ManyToManyField(Product, through='CartProduct')
+    
+    def __str__(self):
+        return f"Cart for user {self.user_id}"
+
+    class Meta:
+        verbose_name = "Cart"
+        verbose_name_plural = "Carts"
+
+
+class CartProduct(models.Model):
+    cart = models.ForeignKey(Cart, related_name="cart_products", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name="cart_products", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"Cart product {self.product.name} - Quantity: {self.quantity}"
+
+    class Meta:
+        verbose_name = "CartProduct"
+        verbose_name_plural = "CartProducts"
