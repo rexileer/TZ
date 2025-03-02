@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, SubCategory, Product
+from .models import Cart, CartProduct, Product, Category, SubCategory
 
 # Регистрация модели категории
 @admin.register(Category)
@@ -18,3 +18,16 @@ class SubCategoryAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'subcategory', 'price', 'created_at')
     ordering = ('created_at',)
+
+class CartProductInline(admin.TabularInline):
+    model = CartProduct
+    extra = 1
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('user_id',)
+    inlines = [CartProductInline]
+
+@admin.register(CartProduct)
+class CartProductAdmin(admin.ModelAdmin):
+    list_display = ('cart', 'product', 'quantity')
