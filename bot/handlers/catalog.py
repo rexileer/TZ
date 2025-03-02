@@ -51,7 +51,7 @@ async def show_product_details(callback: CallbackQuery):
     product = await get_product_details(product_id)
 
     if product:
-        keyboard = products.get_product_keyboard(product_id)
+        keyboard = products.get_quantity_keyboard(product_id)
         await callback.message.answer_photo(
             photo=product["photo"], 
             caption=f"**{product['name']}**\n💵 Price: ${product['price']}\n📌 {product['description']}", 
@@ -67,3 +67,4 @@ async def back_to_subcategories(callback: CallbackQuery):
     keyboard = await sub_categories.get_subcategories_keyboard(category_id)
     await callback.message.edit_text("Choose a subcategory:", reply_markup=keyboard)
     await callback.answer()
+
