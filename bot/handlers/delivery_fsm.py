@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram import Router, F
 from aiogram.filters import StateFilter
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from services.order_to_excel import add_order_to_excel
 from services.cart_service import get_user_cart, clear_cart
 from services.orders_service import create_order
 from services.payment_service import create_payment, check_payment_status
@@ -114,6 +115,14 @@ async def check_payment_callback(callback: CallbackQuery, state: FSMContext):
             order = await create_order(user_id, total_price, delivery_data)
 
             if order:
+                await add_order_to_excel({
+                    "order_id": order.id,
+                    "user_id": user_id,
+                    "total_price": total_price,
+                    "delivery_data": delivery_data,
+                    "date": order.created_at
+                })
+                
                 # Очищаем корзину
                 await clear_cart(user_id)
                 await callback.message.answer("✅ Оплата прошла успешно! Ваш заказ оформлен. 🚀")
