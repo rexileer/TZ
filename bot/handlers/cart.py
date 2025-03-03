@@ -5,6 +5,7 @@ from services.cart_service import get_user_cart, add_to_cart, remove_from_cart, 
 from services.products_service import get_product_details_from_db
 from keyboards.cart_kb import get_cart_keyboard
 from keyboards.products_kb import get_product_to_cart_keyboard
+from keyboards import reply
 
 router = Router()
 
@@ -76,7 +77,7 @@ async def add_to_cart_callback(callback: CallbackQuery):
 
     await callback.message.delete()
 
-    await callback.message.answer(f"✅ Добавлено {quantity} шт. товара **{product.name}** в корзину.")
+    await callback.message.answer(f"✅ Добавлено {quantity} шт. товара **{product.name}** в корзину.", reply_markup=reply.main)
     await callback.answer()
 
 
