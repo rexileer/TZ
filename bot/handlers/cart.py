@@ -27,9 +27,9 @@ async def show_cart(message: Message):
         quantity = cart_product.quantity
         price = product.price * quantity
         total_price += price
-        text += f"🛍 **{product.name}** x{quantity} - ${price}\n"
+        text += f"🛍 **{product.name}** x{quantity} - ₽{price}\n"
 
-    text += f"\n💰 **Итоговая сумма:** ${total_price}"
+    text += f"\n💰 **Итоговая сумма:** ₽{total_price}"
 
     keyboard = await get_cart_keyboard(user_id)
     await message.answer(text, reply_markup=keyboard)

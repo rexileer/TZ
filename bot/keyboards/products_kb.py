@@ -6,7 +6,7 @@ async def get_products_keyboard(subcategory_id: int):
     products = await get_products_from_db(subcategory_id)
 
     buttons = [
-        [InlineKeyboardButton(text=f"{product.name} - ${product.price}", callback_data=f"product_{product.id}")]
+        [InlineKeyboardButton(text=f"{product.name} - ₽{product.price}", callback_data=f"product_{product.id}")]
         for product in products
     ]
 

@@ -59,7 +59,7 @@ async def show_product_details(callback: CallbackQuery):
         keyboard = products_kb.get_quantity_keyboard(product_id)
         await callback.message.answer_photo(
             photo=product.image_url,
-            caption=f"**{product.name}**\n💵 Price: ${product.price}\n📌 {product.description}",
+            caption=f"**{product.name}**\n💵 Price: ₽{product.price}\n📌 {product.description}",
             reply_markup=keyboard
         )
     else:
@@ -93,9 +93,9 @@ async def order_cart_callback(callback: CallbackQuery):
         quantity = cart_product.quantity
         price = product.price * quantity
         total_price += price
-        text += f"{product.name} x{quantity} - ${price}\n"
+        text += f"{product.name} x{quantity} - ₽{price}\n"
 
-    text += f"\n💰 Итоговая сумма: ${total_price}"
+    text += f"\n💰 Итоговая сумма: ₽{total_price}"
 
     keyboard = await delivery_kb.get_delivery_keyboard(user_id)
     

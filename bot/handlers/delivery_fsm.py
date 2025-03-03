@@ -29,9 +29,9 @@ async def delivery_method_callback(callback: CallbackQuery, state: FSMContext):
         quantity = cart_product.quantity
         price = product.price * quantity
         total_price += price
-        text += f"{product.name} x{quantity} - ${price}\n"
+        text += f"{product.name} x{quantity} - ₽{price}\n"
 
-    text += f"\n💰 Итоговая сумма: ${total_price}"
+    text += f"\n💰 Итоговая сумма: ₽{total_price}"
 
     # Сохраняем данные в FSMContext
     await state.update_data(total_price=total_price, cart_products=cart_products)
