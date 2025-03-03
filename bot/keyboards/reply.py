@@ -11,7 +11,7 @@ main = ReplyKeyboardMarkup(
         ],
         [
             KeyboardButton(text="FAQ"),
-            KeyboardButton(text="?"),
+            KeyboardButton(text="Broadcast"),
         ]
     ],
     resize_keyboard=True,
