@@ -1,8 +1,10 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
-from keyboards import categories, sub_categories, products_kb
+from .delivery_fsm import DeliveryState
+from keyboards import categories, sub_categories, products_kb, delivery_kb
 from services.products_service import get_product_details_from_db
 from services.subcategories_service import get_category_by_subcategory
+from services.cart_service import get_user_cart
 
 router = Router()
 
@@ -72,4 +74,30 @@ async def back_to_subcategories(callback: CallbackQuery):
     
     keyboard = await sub_categories.get_subcategories_keyboard(category_id)
     await callback.message.edit_text("Choose a subcategory:", reply_markup=keyboard)
+    await callback.answer()
+
+@router.callback_query(F.data == "order_cart")
+async def order_cart_callback(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    cart_products = await get_user_cart(user_id)
+
+    if not cart_products:
+        await callback.message.answer("🛒 Ваша корзина пуста. Добавьте товары в корзину.")
+        return
+
+    # Генерация текста для заказа
+    text = "📝 Оформление заказа:\n"
+    total_price = 0
+    for cart_product in cart_products:
+        product = cart_product.product
+        quantity = cart_product.quantity
+        price = product.price * quantity
+        total_price += price
+        text += f"{product.name} x{quantity} - ${price}\n"
+
+    text += f"\n💰 Итоговая сумма: ${total_price}"
+
+    keyboard = await delivery_kb.get_delivery_keyboard(user_id)
+    
+    await callback.message.answer(text, reply_markup=keyboard)
     await callback.answer()

@@ -14,7 +14,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 
-from handlers import start, catalog, cart
+from handlers import start, catalog, cart, delivery_fsm
 from middlewares.check_sub import CheckSubscription
 
 from dotenv import load_dotenv
@@ -32,6 +32,7 @@ async def main():
         start.router,
         catalog.router,
         cart.router,
+        delivery_fsm.router
     )
     
     await bot.delete_webhook(drop_pending_updates=True)
