@@ -19,6 +19,21 @@ from middlewares.check_sub import CheckSubscription
 
 from dotenv import load_dotenv
 
+import logging
+
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO,  # Уровень логирования (INFO для обычных сообщений)
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Формат логов
+    handlers=[
+        logging.StreamHandler(),  # Вывод логов в консоль
+        logging.FileHandler('bot_logs.log', mode='a')  # Запись логов в файл 'bot_logs.log'
+    ]
+)
+
+# Получение логгера
+logger = logging.getLogger(__name__)
+
 
 load_dotenv(encoding='utf-8')
 
