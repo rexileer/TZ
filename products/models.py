@@ -66,3 +66,15 @@ class CartProduct(models.Model):
     class Meta:
         verbose_name = "CartProduct"
         verbose_name_plural = "CartProducts"
+
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=255, verbose_name="Вопрос")
+    answer = models.TextField(verbose_name="Ответ")
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = "Часто задаваемый вопрос"
+        verbose_name_plural = "Часто задаваемые вопросы"
